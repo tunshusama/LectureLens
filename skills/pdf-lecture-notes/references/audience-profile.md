@@ -18,6 +18,8 @@ The command hashes the PDF and returns a content-addressed build directory plus 
 
 Never reuse familiarity or assumed knowledge merely because another course was processed earlier. A modified PDF gets a new hash and is evaluated again. Do not ask the same questions again for an unchanged PDF when the existing profile remains applicable.
 
+For a `missing`, `stale`, or `invalid` profile, familiarity is course-specific user information, not something the slides can establish. If neither the current request nor project configuration supplies `audience_level`, ask the user once how familiar they are with this course before writing. Do not substitute the safe default merely to avoid this question. If `learning_goal` is also unspecified and different goals would materially change the result, ask it in the same concise prompt rather than as a second interruption.
+
 ## Resolution order
 
 When creating or refreshing a profile, use the first available source for each pedagogical field:
@@ -27,11 +29,11 @@ When creating or refreshing a profile, use the first available source for each p
 3. Evidence from the course title, slides, and transcript.
 4. The safe default below.
 
-Ask about familiarity or learning goal only when the answer would materially change the notes and cannot be inferred reliably. If a new course is clearly different from a previously processed course, infer again from the new material rather than carrying the previous answer across.
+Infer the discipline and subject-specific explanation needs from the new material when possible, but never infer the user's personal familiarity from course difficulty. Ask about the learning goal only under the condition above. Never carry answers from a different course into the new profile.
 
 ## Safe default
 
-Assume the reader is new to this subject but has ordinary general education. Explain specialist vocabulary and prerequisite concepts as they become necessary; do not explain unrelated basics.
+Use this default only when the user declines to specify familiarity, or when interaction is unavailable. Assume the reader is new to this subject but has ordinary general education. Explain specialist vocabulary and prerequisite concepts as they become necessary; do not explain unrelated basics.
 
 - `audience_level`: `beginner`
 - `learning_goal`: `close_reading`
