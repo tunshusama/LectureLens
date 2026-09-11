@@ -1,0 +1,23 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+.venv/
+venv/
+
+# User source material and generated artifacts
+**/.notes_build/
+**/draft_*_folder/
+examples/synthetic/synthetic_lecture.pdf
+examples/synthetic/output/
+notes.md
+assets/
+
+# Local preferences and credentials
+.lecture-notes.json
+.env
+.env.*
+!.env.example
+*.token
+credentials*.json

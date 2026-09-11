@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:pdf-lecture-notes:profile:v1",
+  "title": "Lecture notes audience profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "source_pdf", "source_sha256", "discipline", "audience_level",
+    "learning_goal", "output_language", "assumed_knowledge", "must_explain", "depth"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "source_pdf": {"type": "string", "minLength": 1},
+    "source_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "discipline": {"type": "string", "minLength": 1},
+    "audience_level": {"enum": ["beginner", "familiar", "advanced"]},
+    "learning_goal": {"enum": ["close_reading", "review", "exam", "research"]},
+    "output_language": {"type": "string", "minLength": 1},
+    "assumed_knowledge": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "must_explain": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+    "depth": {"enum": ["concise", "standard", "detailed"]}
+  }
+}
