@@ -52,3 +52,26 @@ Use this default only when the user declines to specify familiarity, or when int
 ## Project configuration
 
 Projects may provide `.lecture-notes.json` with reusable defaults such as `audience_level`, `learning_goal`, `output_language`, `assumed_knowledge`, `must_explain`, and `depth`. It must not contain `source_sha256`, and it must not override the current user's explicit request. The config may also contain `destination_preference`; output routing consumes that field separately and never copies it into `profile.json`.
+
+## Explicit zero-foundation mode
+
+`mode` is `adaptive` when omitted (legacy profiles remain valid). A request for
+“零基础精读”, “完全没有基础”, or “zero-foundation close reading” selects
+`zero_foundation`; the project config may also select it. An explicit request wins
+against both config and a reusable cached profile. This request already supplies
+familiarity and purpose: do not ask those questions again.
+
+Run `run_context.py <pdf> --project-root . --mode zero_foundation` (or pass the
+resolved adaptive mode). `override_required` means refresh the same PDF's profile
+before drafting. This command reports the override; it does not overwrite files.
+
+For this mode set `audience_level=beginner`, `learning_goal=close_reading`,
+`depth=detailed`, and `assumed_knowledge=[]`. Ordinary reading and everyday
+arithmetic are implicit; do not silently assume statistics, advanced mathematics,
+programming, or specialist knowledge. Put the prerequisites actually needed by
+this course in `must_explain`. Copy `mode` into the note model. An existing
+beginner/detailed profile is NOT equivalent to zero_foundation.
+
+Read [zero-foundation.md](zero-foundation.md) for the teaching contract. A later
+explicit request for concise review should select adaptive and refresh the profile,
+not silently compress a zero_foundation note.

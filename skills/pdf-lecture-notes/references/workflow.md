@@ -33,8 +33,12 @@ Reuse or create `profile.json` according to `run_context.py`, then create `plan.
 
 ```bash
 python3 <skill>/scripts/validate_model.py profile <build_dir>/profile.json
-python3 <skill>/scripts/validate_model.py note <build_dir>/note.json
+python3 <skill>/scripts/validate_model.py note <build_dir>/note.json --project-root .
 ```
+
+Before rendering, complete [accuracy-review.md](accuracy-review.md) and save the
+review record beside note.json. Resolve findings before delivery. The validator
+checks structure and profile/mode consistency, not the truth of prose.
 
 ## Render
 

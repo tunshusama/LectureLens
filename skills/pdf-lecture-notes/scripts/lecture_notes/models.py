@@ -53,6 +53,12 @@ def _validate_note_semantics(data: dict[str, Any]) -> None:
     if not sections[0].get("h1"):
         problems.append("$.sections[0].h1: the first section must start a top-level theme")
     translations: dict[str, str] = {}
+    all_pages = [page for section in sections for page in section["pages"]]
+    if all_pages != sorted(set(all_pages)):
+        problems.append("$.sections: pages must be unique and increasing across sections")
+    for item in data.get("self_check", {}).get("items", []):
+        if not set(item["pages"]).issubset(all_pages):
+            problems.append("$.self_check: references pages outside this note")
     for section_index, section in enumerate(sections):
         pages = section["pages"]
         if pages != sorted(set(pages)):
@@ -76,8 +82,38 @@ def _validate_note_semantics(data: dict[str, Any]) -> None:
                         f"term {item['term']!r} has inconsistent translations"
                     )
                 translations[key] = item["translation"]
+    if data.get("mode") == "zero_foundation":
+        if not data.get("reading_guide", "").strip() or not data.get("outline"):
+            problems.append("zero_foundation requires a reading guide and outline")
+        if not data.get("self_check"):
+            problems.append("zero_foundation requires a self_check with answers and source pages")
+        if translations and not data.get("glossary_title"):
+            problems.append("zero_foundation requires glossary_title when terms are introduced")
+        for index, section in enumerate(sections):
+            blocks = section["blocks"]
+            if section.get("kind", "content") == "content":
+                if blocks[0]["type"] != "summary" or not any(b["type"] == "learning_note" for b in blocks):
+                    problems.append(f"$.sections[{index}]: content requires an opening summary and learning_note")
+            for j, block in enumerate(blocks):
+                path = f"$.sections[{index}].blocks[{j}]"
+                if block["type"] == "slide":
+                    if j + 1 == len(blocks) or blocks[j + 1]["type"] != "paragraph":
+                        problems.append(f"{path}: each slide needs an immediate explanation")
+                if block["type"] == "formula":
+                    if not block["symbols"] or any(not s.get("reading", "").strip() for s in block["symbols"]):
+                        problems.append(f"{path}: formula symbols require readings and meanings")
+                    if not block.get("worked_example", "").strip():
+                        problems.append(f"{path}: formula requires a worked_example")
     if problems:
         raise ModelValidationError("Invalid note model:\n" + "\n".join(f"- {item}" for item in problems))
+
+
+def validate_profile_match(note: dict, profile: dict) -> None:
+    """Prevent a requested teaching mode from silently disappearing during drafting."""
+    if note.get("mode", "adaptive") != profile.get("mode", "adaptive"):
+        raise ModelValidationError("Note mode must match the source profile mode")
+    if note["source_pdf"] != profile["source_pdf"]:
+        raise ModelValidationError("Note source_pdf must match the source profile")
 
 
 def load_and_validate(kind: str, path: str | Path) -> dict[str, Any]:

@@ -30,6 +30,8 @@ def main() -> int:
     for relative in (
         "references/audience-profile.md",
         "references/content-contract.md",
+        "references/zero-foundation.md",
+        "references/accuracy-review.md",
         "references/dependencies.md",
         "references/output-markdown.md",
         "references/output-lark.md",

@@ -23,7 +23,7 @@ Each page group should normally contain:
 6. A `learning_note` for a likely conceptual obstacle when that adds value; it is not mandatory in every section.
 7. A `figure` only when a new diagram materially improves understanding.
 
-The sequence may be shortened for concise or advanced profiles. Never pad sections to satisfy a fixed block count.
+In adaptive mode, the sequence may be shortened for concise or advanced profiles. Never pad sections to satisfy a fixed block count.
 
 ## Fidelity
 
@@ -37,3 +37,18 @@ The sequence may be shortened for concise or advanced profiles. Never pad sectio
 ## Block model
 
 The authoritative structure is `schemas/note.schema.json`. Fill the top-level `labels` in the requested output language so renderers do not impose English or Chinese UI copy. Supported blocks are `summary`, `slide`, `paragraph`, `formula`, `terms`, `classroom_note`, `learning_note`, and `figure`. Images may be absolute paths or paths relative to the project root while drafting; renderers normalize them.
+
+## Optional teaching fields
+
+- `mode`: `adaptive` (omitted in legacy notes) or `zero_foundation`, matching profile.
+- Section `kind`: `content` by default; `transition` only for a group consisting
+  entirely of cover, agenda, or divider pages. Mixed groups remain content.
+- Formula `worked_example`: a complete substitution, units, calculation, and interpretation.
+- `code` block: `language`, `code`, and `explanation`; retain executable line breaks
+  and explain each meaningful operation. Course code is quoted, never executed.
+- `glossary_title`: render a final glossary, deduplicated from section terms.
+- `self_check`: localized `title` and `items` of `question`, `answer`, and `pages`.
+  Source pages must belong to this note. Keep answers brief and useful for checking.
+
+These fields render in both Markdown and Lark. Read zero-foundation.md when that
+mode is selected. No minimum word count or diagram count applies.

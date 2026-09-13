@@ -9,6 +9,7 @@
     "learning_goal", "output_language", "assumed_knowledge", "must_explain", "depth"
   ],
   "properties": {
+    "mode": {"enum": ["adaptive", "zero_foundation"], "default": "adaptive"},
     "schema_version": {"const": 1},
     "source_pdf": {"type": "string", "minLength": 1},
     "source_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
@@ -19,5 +20,18 @@
     "assumed_knowledge": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
     "must_explain": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
     "depth": {"enum": ["concise", "standard", "detailed"]}
-  }
+  },
+  "allOf": [
+    {
+      "if": {"required": ["mode"], "properties": {"mode": {"const": "zero_foundation"}}},
+      "then": {
+        "properties": {
+          "audience_level": {"const": "beginner"},
+          "learning_goal": {"const": "close_reading"},
+          "depth": {"const": "detailed"},
+          "assumed_knowledge": {"maxItems": 0}
+        }
+      }
+    }
+  ]
 }

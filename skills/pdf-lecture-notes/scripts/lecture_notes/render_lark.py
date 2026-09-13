@@ -5,6 +5,7 @@ from __future__ import annotations
 from html import escape
 from pathlib import Path
 
+from .appendices import output_sections
 from .pathing import project_relative
 
 
@@ -34,12 +35,13 @@ def render(note: dict, output: str | Path, project_root: str | Path) -> Path:
         lines.append("</ol>")
 
     previous_h1 = None
-    for section in note["sections"]:
+    for section in output_sections(note):
         h1 = section.get("h1")
         if h1 and h1 != previous_h1:
             lines.append(f'<h1 seq="auto">{escape(h1)}</h1>')
             previous_h1 = h1
-        lines.append(f'<h2 seq="auto">{escape(section["h2"])}</h2>')
+        if section.get("h2"):
+            lines.append(f'<h2 seq="auto">{escape(section["h2"])}</h2>')
         for block in section["blocks"]:
             kind = block["type"]
             if kind == "summary":
@@ -50,6 +52,9 @@ def render(note: dict, output: str | Path, project_root: str | Path) -> Path:
                 lines.append(_image(block, root))
                 if kind == "figure":
                     lines.append(_p(block["explanation"]))
+            elif kind == "code":
+                lines.append(f'<pre><code language="{escape(block["language"], quote=True)}">{escape(block["code"])}</code></pre>')
+                lines.append(_p(block["explanation"]))
             elif kind == "formula":
                 lines.append(f"<latex>{escape(block['latex'])}</latex>")
                 if block["symbols"]:
@@ -62,6 +67,8 @@ def render(note: dict, output: str | Path, project_root: str | Path) -> Path:
                             detail += f" {note['labels']['example']}: {item['example']}"
                         lines.append(f"<li><b>{escape(item['symbol'])}</b>: {escape(detail)}</li>")
                     lines.append("</ul>")
+                if block.get("worked_example"):
+                    lines.append(_p(block["worked_example"]))
             elif kind == "terms":
                 lines.append("<table><thead><tr>")
                 for heading in (

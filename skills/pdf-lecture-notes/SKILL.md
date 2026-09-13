@@ -24,7 +24,7 @@ Do not ask about the user's background on every run, and do not treat the first 
 
 3. Before generating notes, read [output-routing.md](references/output-routing.md) and resolve the publication destination. Lark/Feishu is preferred when the user did not name a destination; proactively offer it instead of treating an unspecified destination as a preference for local Markdown. Markdown is the fallback after the user declines Lark or explicitly requests Markdown.
 4. Run the preparation scripts described in [workflow.md](references/workflow.md).
-5. Read [content-contract.md](references/content-contract.md), plan page groups, and write `.notes_build/note.json` conforming to [note.schema.json](references/schemas/note.schema.json).
+5. Resolve `mode` from the current request/config before reusing a profile. Explicit zero-foundation close reading selects `zero_foundation` and supplies familiarity and purpose; follow [zero-foundation.md](references/zero-foundation.md). Read [content-contract.md](references/content-contract.md), plan page groups, and write `.notes_build/note.json` conforming to [note.schema.json](references/schemas/note.schema.json).
 6. For Markdown, read [output-markdown.md](references/output-markdown.md). For Lark/Feishu, read [output-lark.md](references/output-lark.md).
 
 Use parallel agents for independent page groups only when the current environment supports them and doing so improves the task. Sequential writing is fully supported.
@@ -37,3 +37,5 @@ Use parallel agents for independent page groups only when the current environmen
 - If a page cannot be read reliably, state the limitation instead of inventing details.
 - Validate `profile.json` and `note.json` before rendering. Inspect generated figures visually when possible and run `figverify.py` in all cases.
 - Keep terminology consistent across the complete note.
+
+Before delivery, complete [accuracy-review.md](references/accuracy-review.md). Structural validation does not establish factual accuracy.

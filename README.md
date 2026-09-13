@@ -94,3 +94,18 @@ python3 examples/synthetic/make_fixture.py
 ## Licensing
 
 Project code is MIT licensed. PyMuPDF is a separate dependency offered under AGPL-3.0 or a commercial license; the MIT license for this repository does not replace its terms. Review [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) before distribution or organizational use.
+
+## Zero-foundation close reading
+
+Ask for “zero-foundation close reading” (or “零基础精读”), or copy
+`examples/config.zero-foundation.json` to the course project's `.lecture-notes.json`.
+The explicit mode assumes no specialist prerequisites and requires page explanations,
+formula readings and worked examples, explained code, conceptual obstacles, a
+deduplicated glossary when terms exist, and self-checks with answers and page references.
+Transition pages stay brief; figures are included only when helpful.
+
+The default remains `adaptive`; legacy profiles and notes still work. Run
+`run_context.py <pdf> --mode zero_foundation --project-root .` to detect a cached
+profile that needs refreshing. Note validation and rendering check mode consistency.
+An editorial source review is required before delivery; structural checks cannot
+certify factual correctness. See the skill's `references/accuracy-review.md`.

@@ -1,10 +1,17 @@
 {
+  "mode": "adaptive",
   "discipline": "media studies",
   "audience_level": "beginner",
   "learning_goal": "close_reading",
   "output_language": "English",
-  "assumed_knowledge": ["general secondary education"],
-  "must_explain": ["specialist theories", "named institutions", "case context"],
+  "assumed_knowledge": [
+    "general secondary education"
+  ],
+  "must_explain": [
+    "specialist theories",
+    "named institutions",
+    "case context"
+  ],
   "depth": "detailed",
   "destination_preference": "lark"
 }

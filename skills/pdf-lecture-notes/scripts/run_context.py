@@ -19,7 +19,7 @@ def source_label(source: Path, project_root: Path) -> str:
         return source.name
 
 
-def resolve_context(pdf: str | Path, project_root: str | Path) -> dict:
+def resolve_context(pdf: str | Path, project_root: str | Path, mode: str | None = None) -> dict:
     root = Path(project_root).resolve()
     candidate = Path(pdf)
     source = candidate.resolve() if candidate.is_absolute() else (root / candidate).resolve()
@@ -40,6 +40,9 @@ def resolve_context(pdf: str | Path, project_root: str | Path) -> dict:
             if profile["source_sha256"] == digest:
                 status = "reusable"
                 reason = "The stored course profile matches this exact PDF. Reuse it unless the user overrides it."
+                if mode is not None and mode != profile.get("mode", "adaptive"):
+                    status = "override_required"
+                    reason = "Requested mode differs from the cached profile. Refresh the profile before writing."
             else:
                 status = "stale"
                 reason = "The stored course profile belongs to different PDF content. Create a new profile."
@@ -50,6 +53,7 @@ def resolve_context(pdf: str | Path, project_root: str | Path) -> dict:
         "build_dir": build.relative_to(root).as_posix(),
         "profile_path": profile_path.relative_to(root).as_posix(),
         "profile_status": status,
+        "requested_mode": mode,
         "reason": reason,
     }
 
@@ -58,9 +62,10 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("pdf")
     parser.add_argument("--project-root", default=".")
+    parser.add_argument("--mode", choices=("adaptive", "zero_foundation"))
     args = parser.parse_args()
     try:
-        result = resolve_context(args.pdf, args.project_root)
+        result = resolve_context(args.pdf, args.project_root, args.mode)
     except (OSError, ValueError) as exc:
         print(json.dumps({"ok": False, "error": str(exc)}, ensure_ascii=False))
         return 1

@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 from urllib.parse import quote
 
+from .appendices import output_sections
 from .pathing import copy_asset
 
 
@@ -33,12 +35,13 @@ def render(note: dict, output: str | Path, project_root: str | Path) -> Path:
         lines.append("")
 
     previous_h1 = None
-    for section in note["sections"]:
+    for section in output_sections(note):
         h1 = section.get("h1")
         if h1 and h1 != previous_h1:
             lines.extend([f"## {h1}", ""])
             previous_h1 = h1
-        lines.extend([f"### {section['h2']}", ""])
+        if section.get("h2"):
+            lines.extend([f"### {section['h2']}", ""])
         for block in section["blocks"]:
             kind = block["type"]
             if kind == "summary":
@@ -49,6 +52,9 @@ def render(note: dict, output: str | Path, project_root: str | Path) -> Path:
                 lines.extend([_image(block, root, asset_dir), ""])
                 if kind == "figure":
                     lines.extend([block["explanation"], ""])
+            elif kind == "code":
+                fence = "`" * max(3, max((len(run) for run in re.findall(r"`+", block["code"])), default=0) + 1)
+                lines.extend([fence + block["language"], block["code"], fence, "", block["explanation"], ""])
             elif kind == "formula":
                 lines.extend(["$$", block["latex"], "$$", ""])
                 for item in block["symbols"]:
@@ -59,6 +65,8 @@ def render(note: dict, output: str | Path, project_root: str | Path) -> Path:
                         detail += f" {note['labels']['example']}: {item['example']}"
                     lines.append(f"- **{item['symbol']}**: {detail}")
                 lines.append("")
+                if block.get("worked_example"):
+                    lines.extend([block["worked_example"], ""])
             elif kind == "terms":
                 lines.extend([
                     f"| {note['labels']['term']} | {note['labels']['translation']} | {note['labels']['explanation']} |",
