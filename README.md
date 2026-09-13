@@ -1,4 +1,6 @@
-# PDF Lecture Notes
+# LectureLens
+
+Turn lecture materials into page-aware study notes that adapt to you.
 
 [中文说明](README.zh.md)
 

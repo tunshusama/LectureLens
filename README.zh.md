@@ -1,4 +1,6 @@
-# PDF Lecture Notes：课件精读笔记 Skill
+# LectureLens：课件伴读
+
+把课件变成适合你的逐页学习笔记。
 
 [English](README.md)
 

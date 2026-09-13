@@ -34,7 +34,7 @@ def main() -> None:
         page.insert_text((850, 510), str(len(document)), fontsize=12)
     document.set_metadata({
         "title": "Synthetic media studies lecture",
-        "author": "PDF Lecture Notes contributors",
+        "author": "LectureLens contributors",
     })
     document.save(output)
     digest = file_sha256(output)
