@@ -1,0 +1,4 @@
+interface:
+  display_name: "飞书 Coding Agent 监听器"
+  short_description: "指导 Coding Agent 接入飞书聊天与文档评论事件监听"
+  default_prompt: "使用 $feishu-coding-agent-listener 将我的本地 Coding Agent 接入飞书聊天和文档评论 @。"
