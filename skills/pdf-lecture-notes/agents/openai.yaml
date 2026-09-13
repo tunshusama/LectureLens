@@ -1,4 +1,4 @@
 interface:
-  display_name: "PDF Lecture Notes"
+  display_name: "LectureLens"
   short_description: "Create audience-adapted notes from lecture PDFs"
   default_prompt: "Use $pdf-lecture-notes to turn this lecture PDF into study notes suited to my background and preferred output."

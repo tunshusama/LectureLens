@@ -55,11 +55,11 @@
 要求 Python 3.10+；只有通过 `npx` 安装 Skill 或使用飞书时才需要 Node.js。
 
 ```bash
-npx skills add <owner>/<repo> --skill pdf-lecture-notes
+npx skills add tunshusama/LectureLens --skill pdf-lecture-notes
 python3 -m pip install -r .agents/skills/pdf-lecture-notes/requirements.txt
 ```
 
-仓库发布后请把 `<owner>/<repo>` 换成实际 GitHub 地址。本地检出可用：
+本地检出可用：
 
 ```bash
 npx skills add . --skill pdf-lecture-notes

@@ -1,5 +1,4 @@
 # LectureLens
-
 Turn lecture materials into page-aware study notes that adapt to you.
 
 [中文说明](README.zh.md)
@@ -32,11 +31,11 @@ This allows the same workflow to emphasize notation and worked examples for math
 Requirements: Python 3.10+ and Node.js only if you use `npx` or Lark.
 
 ```bash
-npx skills add <owner>/<repo> --skill pdf-lecture-notes
+npx skills add tunshusama/LectureLens --skill pdf-lecture-notes
 python3 -m pip install -r .agents/skills/pdf-lecture-notes/requirements.txt
 ```
 
-Replace `<owner>/<repo>` with the GitHub repository after publishing. For a local checkout:
+For a local checkout:
 
 ```bash
 npx skills add . --skill pdf-lecture-notes
